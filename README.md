@@ -114,7 +114,7 @@
     </div>
 
     <h1>Be My Valentine?</h1>
-    <h2>Hey, [Name]</h2>
+    <h2>Buna, Diana  </h2>
 
     <p>
       Valentine’s Day plans?<br>
@@ -123,7 +123,7 @@
 
     <p>
       📅 February 14<br />
-      📍 [Place]
+      📍 In Rai 
     </p>
 
     <div class="buttons">
