@@ -44,12 +44,6 @@
       height: auto;
     }
 
-    .heart {
-      font-size: 2.5rem;
-      animation: pulse 1.4s infinite;
-      margin-bottom: 10px;
-    }
-
     h1 {
       font-size: 2.1rem;
       margin: 10px 0;
@@ -69,7 +63,7 @@
 
     .buttons {
       position: relative;
-      height: 90px;
+      height: 100px;
       margin-top: 10px;
     }
 
@@ -86,10 +80,7 @@
     #yesBtn {
       background-color: #ff2f68;
       color: white;
-    }
-
-    #yesBtn:hover {
-      transform: scale(1.1);
+      transform: scale(1);
     }
 
     #noBtn {
@@ -98,12 +89,6 @@
       position: absolute;
       left: 55%;
       top: 10px;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.15); }
-      100% { transform: scale(1); }
     }
   </style>
 </head>
@@ -114,7 +99,7 @@
     </div>
 
     <h1>Be My Valentine?</h1>
-    <h2>Hey, Diana </h2>
+    <h2>Hey, Diana</h2>
 
     <p>
       Valentine’s Day plans?<br>
@@ -123,7 +108,7 @@
 
     <p>
       📅 February 14<br />
-      📍 In Rai 
+      📍 In Rai
     </p>
 
     <div class="buttons">
@@ -133,84 +118,69 @@
   </div>
 
   <script>
-  const noBtn = document.getElementById("noBtn");
-  const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
 
-  let escapeCount = 0;
-  let firstDisappearDone = false;
-  let yesScale = 1;
+    let escapeCount = 0;
+    let yesScale = 1;
 
-  const sassyTexts = [
-    "No 🙃",
-    "Are you sure?",
-    "Wrong choice 😏",
-    "Try again",
-    "Almost clicked yes",
-    "Furi Curent"
-  ];
+    const sassyTexts = [
+      "No 🙃",
+      "Are you sure?",
+      "Wrong choice 😏",
+      "Try again",
+      "Almost clicked yes",
+      "Furi Curent"
+    ];
 
-  function growYes() {
-    yesScale += 0.15;
-    yesBtn.style.transform = `scale(${yesScale})`;
-  }
+    function moveNoButton() {
+      escapeCount++;
 
-  function moveButton() {
-    // First interaction: disappear briefly
-    if (!firstDisappearDone) {
-      firstDisappearDone = true;
-      noBtn.style.visibility = "hidden";
-      growYes();
+      // Grow YES button
+      yesScale += 0.15;
+      yesBtn.style.transform = `scale(${yesScale})`;
 
-      setTimeout(() => {
-        noBtn.style.visibility = "visible";
-      }, 2500);
+      // Move NO button
+      const card = document.querySelector(".card");
+      const maxX = card.clientWidth - noBtn.clientWidth;
+      const maxY = card.clientHeight - noBtn.clientHeight;
 
-      return;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      noBtn.style.left = `${x}px`;
+      noBtn.style.top = `${y}px`;
+
+      // Update NO text
+      const textIndex = Math.min(escapeCount, sassyTexts.length - 1);
+      noBtn.textContent = sassyTexts[textIndex];
     }
 
-    escapeCount++;
-    growYes();
+    noBtn.addEventListener("mouseover", moveNoButton);
+    noBtn.addEventListener("touchstart", moveNoButton);
 
-    const card = document.querySelector(".card");
-    const maxX = card.clientWidth - noBtn.clientWidth;
-    const maxY = card.clientHeight - noBtn.clientHeight;
-
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
-
-    noBtn.style.left = `${x}px`;
-    noBtn.style.top = `${y}px`;
-
-    const textIndex = Math.min(escapeCount, sassyTexts.length - 1);
-    noBtn.textContent = sassyTexts[textIndex];
-  }
-
-  noBtn.addEventListener("mouseover", moveButton);
-  noBtn.addEventListener("touchstart", moveButton);
-
-  yesBtn.addEventListener("click", () => {
-    document.body.innerHTML = `
-      <div style="
-        min-height:100vh;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        background:linear-gradient(135deg,#ff758c,#ff7eb3);
-        color:white;
-        font-family:system-ui;
-        text-align:center;
-        padding:20px;">
-        <div>
-          <h1>Perfect choice 💘</h1>
-          <p style="font-size:1.3rem; margin-top:15px;">
-            Mac and Cheese la mine<br>
-            plus desert (EU) 😌
-          </p>
+    yesBtn.addEventListener("click", () => {
+      document.body.innerHTML = `
+        <div style="
+          min-height:100vh;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          background:linear-gradient(135deg,#ff758c,#ff7eb3);
+          color:white;
+          font-family:system-ui;
+          text-align:center;
+          padding:20px;">
+          <div>
+            <h1>Perfect choice 💘</h1>
+            <p style="font-size:1.3rem; margin-top:15px;">
+              Mac and Cheese la mine<br>
+              plus desert (EU) 😌
+            </p>
+          </div>
         </div>
-      </div>
-    `;
-  });
-</script>
-
+      `;
+    });
+  </script>
 </body>
 </html>
