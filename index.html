@@ -133,75 +133,84 @@
   </div>
 
   <script>
-    const noBtn = document.getElementById("noBtn");
-    const yesBtn = document.getElementById("yesBtn");
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
 
-    let escapeCount = 0;
-    let firstDisappearDone = false;
+  let escapeCount = 0;
+  let firstDisappearDone = false;
+  let yesScale = 1;
 
-    const sassyTexts = [
-      "No 🙃",
-      "Are you sure?",
-      "Wrong choice 😏",
-      "Try again",
-      "Almost clicked yes",
-      "Furi Curent"
-    ];
+  const sassyTexts = [
+    "No 🙃",
+    "Are you sure?",
+    "Wrong choice 😏",
+    "Try again",
+    "Almost clicked yes",
+    "Furi Curent"
+  ];
 
-    function moveButton() {
-      // First interaction: disappear briefly
-      if (!firstDisappearDone) {
-        firstDisappearDone = true;
-        noBtn.style.visibility = "hidden";
+  function growYes() {
+    yesScale += 0.15;
+    yesBtn.style.transform = `scale(${yesScale})`;
+  }
 
-        setTimeout(() => {
-          noBtn.style.visibility = "visible";
-        }, 2500);
+  function moveButton() {
+    // First interaction: disappear briefly
+    if (!firstDisappearDone) {
+      firstDisappearDone = true;
+      noBtn.style.visibility = "hidden";
+      growYes();
 
-        return;
-      }
+      setTimeout(() => {
+        noBtn.style.visibility = "visible";
+      }, 2500);
 
-      escapeCount++;
-
-      const card = document.querySelector(".card");
-      const maxX = card.clientWidth - noBtn.clientWidth;
-      const maxY = card.clientHeight - noBtn.clientHeight;
-
-      const x = Math.random() * maxX;
-      const y = Math.random() * maxY;
-
-      noBtn.style.left = `${x}px`;
-      noBtn.style.top = `${y}px`;
-
-      const textIndex = Math.min(escapeCount, sassyTexts.length - 1);
-      noBtn.textContent = sassyTexts[textIndex];
+      return;
     }
 
-    noBtn.addEventListener("mouseover", moveButton);
-    noBtn.addEventListener("touchstart", moveButton);
+    escapeCount++;
+    growYes();
 
-    yesBtn.addEventListener("click", () => {
-      document.body.innerHTML = `
-        <div style="
-          min-height:100vh;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          background:linear-gradient(135deg,#ff758c,#ff7eb3);
-          color:white;
-          font-family:system-ui;
-          text-align:center;
-          padding:20px;">
-          <div>
-            <h1>Perfect choice 💘</h1>
-            <p style="font-size:1.3rem; margin-top:15px;">
-              Mac and Cheese la mine<br>
-              plus desert (EU) 😌
-            </p>
-          </div>
+    const card = document.querySelector(".card");
+    const maxX = card.clientWidth - noBtn.clientWidth;
+    const maxY = card.clientHeight - noBtn.clientHeight;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.left = `${x}px`;
+    noBtn.style.top = `${y}px`;
+
+    const textIndex = Math.min(escapeCount, sassyTexts.length - 1);
+    noBtn.textContent = sassyTexts[textIndex];
+  }
+
+  noBtn.addEventListener("mouseover", moveButton);
+  noBtn.addEventListener("touchstart", moveButton);
+
+  yesBtn.addEventListener("click", () => {
+    document.body.innerHTML = `
+      <div style="
+        min-height:100vh;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        background:linear-gradient(135deg,#ff758c,#ff7eb3);
+        color:white;
+        font-family:system-ui;
+        text-align:center;
+        padding:20px;">
+        <div>
+          <h1>Perfect choice 💘</h1>
+          <p style="font-size:1.3rem; margin-top:15px;">
+            Mac and Cheese la mine<br>
+            plus desert (EU) 😌
+          </p>
         </div>
-      `;
-    });
-  </script>
+      </div>
+    `;
+  });
+</script>
+
 </body>
 </html>
